@@ -1,4 +1,4 @@
-package momentum.c4q.abass.friendly;
+package momentum.c4q.abass.friendly.controller;
 
 import android.app.Service;
 import android.content.Intent;

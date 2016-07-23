@@ -6,14 +6,14 @@
 
     <StackView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/stack_view"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:loopViews="true" />
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/empty_view"
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/add_contact_btn"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/holo_blue_light"

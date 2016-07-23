@@ -3,4 +3,7 @@
 
     <string name="add_friend_button">Add Contact</string>
     <string name="friendly_text">SIMPLE\nIS BETTER</string>
+    <string name="name">name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="default_msg">Nice to meet you! We met at </string>
 </resources>
