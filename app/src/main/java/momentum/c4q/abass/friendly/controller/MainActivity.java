@@ -1,9 +1,13 @@
 package momentum.c4q.abass.friendly.controller;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +18,7 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import momentum.c4q.abass.friendly.Config;
 import momentum.c4q.abass.friendly.R;
 import momentum.c4q.abass.friendly.model.Contact;
 import momentum.c4q.abass.friendly.model.ContactQuerier;
@@ -27,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.name_field) EditText nameField;
     @BindView(R.id.number_field) EditText numberField;
     private WidgetController controller;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,5 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+
 
 }

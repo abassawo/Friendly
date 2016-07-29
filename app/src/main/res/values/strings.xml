@@ -6,4 +6,8 @@
     <string name="name">name</string>
     <string name="phone_number">Phone Number</string>
     <string name="default_msg">Nice to meet you! We met at </string>
+    <string name="service_not_available">Service not Available</string>
+    <string name="invalid_lat_long_used">Invalid Location Attempt</string>
+    <string name="no_address_found">No address found</string>
+    <string name="address_found">Address Found</string>
 </resources>

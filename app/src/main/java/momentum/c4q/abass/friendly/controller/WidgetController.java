@@ -1,25 +1,27 @@
 package momentum.c4q.abass.friendly.controller;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import momentum.c4q.abass.friendly.R;
-import momentum.c4q.abass.friendly.location.LocationController;
+import momentum.c4q.abass.friendly.controller.location.AddressUtil;
+import momentum.c4q.abass.friendly.controller.location.LocationController;
 import momentum.c4q.abass.friendly.model.Contact;
 import momentum.c4q.abass.friendly.model.ContactQuerier;
 
 /**
- * Created by Abass on 7/13/16.
+ * Created by Abass on 7/13/16.set
  */
-public class WidgetController extends LocationController implements Controller{
+public class WidgetController extends LocationController implements Controller, AddressUtil.OnLocationParsedListener{
     private static String TAG = WidgetController.class.getSimpleName();
     final static String WIDGET_UPDATE_ACTION = "momentum.c4q.abass.friendly.intent.action.UPDATE_WIDGET";
     private ContactQuerier contactQuerier;
     private SmsManager smsMgr;
+    private static Contact contact;
+;
+
 
 
     public WidgetController(Context context) {
@@ -31,36 +33,45 @@ public class WidgetController extends LocationController implements Controller{
     public Contact createContact(EditText nameField, EditText numberField) {
         String name = nameField.getText().toString();
         String number = numberField.getText().toString();
-        return new Contact(name, number);
+        contact = new Contact(name, number);
+        return contact;
     }
 
     @Override
     public void processContact(Contact contact) {
         String logMsg = "Processing Contact " + contact.getName() + "" + contact.getNumber();
         Log.d(TAG, logMsg);
-        String message = assignLocationAndFormMessage(contact);
         contactQuerier.addContact(contact);
-        sendMessage(contact, message);
+        if (currentLocation != null) {
+            AddressUtil friendly = new AddressUtil(getContext(), currentLocation, this);
+        }else{
+            Toast.makeText(getContext(), "Check Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    public void sendMessage(String message){
+//        PendingIntent p1 = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), null, 0);
+//        PendingIntent p2 = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), null, 0);
+        smsMgr.sendTextMessage(contact.getNumber(), null, message, null, null);
 
-    public void sendMessage(Contact contact, String message) {
-        Intent intent = new Intent();
-        Intent intent2 = new Intent();
-        PendingIntent p1 = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), intent, 0);
-        PendingIntent p2 = PendingIntent.getActivity(getContext(), (int) System.currentTimeMillis(), intent2, 0);
-        smsMgr.sendTextMessage(contact.getNumber(), null, message, p1, p2);
     }
 
-    public String assignLocationAndFormMessage(Contact contact) {
-        String location = getLocation();
-        contact.setLocation(location);
-        StringBuilder messageStr = new StringBuilder();
-        messageStr.append("Hi " + contact.getName() + " ");
-        messageStr.append(getContext().getString(R.string.default_msg) + " " + location);
-        Log.d(TAG, messageStr.toString());
-        return messageStr.toString();
+    @Override
+    public void onSuccess(String address) {
+        if(address.contains("null")){
+            address.replace("null", "");
+        }
+        Log.d("Got an address", address);
+        String message = contact.getMessage();
+        sendMessage(message);
+
+
     }
 
-
+    @Override
+    public void onFailure() {
+        Toast.makeText(getContext(), "Unable to find address", Toast.LENGTH_SHORT).show();
+        String message = contact.getMessage();
+        sendMessage(message);
+    }
 }

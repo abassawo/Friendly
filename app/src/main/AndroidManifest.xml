@@ -39,16 +39,13 @@
                 android:resource="@xml/friendly_widget_info" />
         </receiver>
 
-        <service android:name=".controller.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
-        <meta-data
-            android:name="com.google.android.awareness.API_KEY"
-            android:value="AIzaSyCW6Y-5n37AFpLSayi78snj-apmkuQ3eR4"/>
+        <!--<meta-data-->
+            <!--android:name="com.google.android.awareness.API_KEY"-->
+            <!--android:value="AIzaSyCW6Y-5n37AFpLSayi78snj-apmkuQ3eR4"/>-->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyCW6Y-5n37AFpLSayi78snj-apmkuQ3eR4" />
 
     </application>
 
