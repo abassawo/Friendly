@@ -19,7 +19,6 @@ public class Contact {
         this.name = name;
         this.number = number;
         this.email = null;
-
     }
 
     public void setEmail(String email) {
@@ -44,5 +43,9 @@ public class Contact {
 
     public void setMessage(String message){
         this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
-import momentum.c4q.abass.friendly.controller.MainActivity;
 import momentum.c4q.abass.friendly.R;
 
 /**

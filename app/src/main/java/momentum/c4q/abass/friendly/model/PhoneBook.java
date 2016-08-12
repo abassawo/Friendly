@@ -15,16 +15,24 @@ import static android.provider.ContactsContract.CommonDataKinds.StructuredName.D
 /**
  * Created by Abass on 7/18/16.
  */
-public class ContactQuerier implements ContactQueriable {
+public class PhoneBook {
 
-    private final String TAG = ContactQuerier.class.getSimpleName();
-    private Context context;
+    private final String TAG = PhoneBook.class.getSimpleName();
+    private static PhoneBook INSTANCE;
+    private  Context context;
 
-    public ContactQuerier(Context context){
+    private PhoneBook(Context context){
         this.context = context;
     }
 
-    @Override
+    public static PhoneBook getInstance(Context context) {
+        if(INSTANCE == null){
+            INSTANCE = new PhoneBook(context);
+        }
+        return INSTANCE;
+    }
+
+
     public void addContact(final Contact contact) {
         ArrayList<ContentProviderOperation> ops = (ArrayList) getContentProvOperations(contact);
         // Asking the Contact provider to create a new contact
