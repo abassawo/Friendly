@@ -2,7 +2,7 @@ package momentum.c4q.abass.friendly;
 
 import android.widget.EditText;
 
-import momentum.c4q.abass.friendly.controller.location.LocationHelper;
+//import momentum.c4q.abass.friendly.controller.location.LocationHelper;
 import momentum.c4q.abass.friendly.model.Contact;
 
 /**
@@ -16,11 +16,10 @@ public interface Mvc {
     }
 
     public interface View{
-        void onLocationClick();
-        void onLocationRegistered();
+
     }
 
-    public interface Controller extends LocationHelper.OnLocationListener{
+    public interface Controller{
         Contact createContact(EditText nameField, EditText numberField);
         void processContact(Contact contact);
         void assignLocation(Contact contact, String location);

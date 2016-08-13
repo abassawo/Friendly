@@ -9,18 +9,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.model.LatLng;
 
+import momentum.c4q.abass.friendly.Config;
 import momentum.c4q.abass.friendly.Mvc;
 import momentum.c4q.abass.friendly.R;
-import momentum.c4q.abass.friendly.controller.location.LocationHelper;
+import momentum.c4q.abass.friendly.controller.location.PlaceLocationHelper;
 import momentum.c4q.abass.friendly.model.Contact;
 import momentum.c4q.abass.friendly.model.PhoneBook;
+import momentum.c4q.abass.friendly.model.Prefs;
 
 /**
  * Created by Abass on 7/13/16.
  */
-public class WidgetController implements Mvc.Controller {
+public class WidgetController implements Mvc.Controller, PlaceLocationHelper.OnPlaceListener {
 
     private static String TAG = WidgetController.class.getSimpleName();
     final static String WIDGET_UPDATE_ACTION = "momentum.c4q.abass.friendly.intent.action.UPDATE_WIDGET";
@@ -28,14 +29,14 @@ public class WidgetController implements Mvc.Controller {
     private SmsManager smsMgr;
     private Context context;
     private Contact contact;
-    private LocationHelper locationHelper;
+    private PlaceLocationHelper locationHelper;
 
 
     public WidgetController(Context context) {
         this.context = context;
         if(phoneBook == null) phoneBook = PhoneBook.getInstance(context);
         smsMgr = SmsManager.getDefault();
-        this.locationHelper = new LocationHelper(context, this);
+        this.locationHelper = new PlaceLocationHelper(context, this);
         locationHelper.startLocationAPI();
 
 
@@ -54,7 +55,6 @@ public class WidgetController implements Mvc.Controller {
         Log.d(TAG, logMsg);
         phoneBook.addContact(contact);
         if(locationHelper.isConnected()) {
-            locationHelper.getPlacesAsync();
         }else{
             if(!locationHelper.isConnecting()) {
                locationHelper.startLocationAPI();;
@@ -68,8 +68,8 @@ public class WidgetController implements Mvc.Controller {
     public void assignLocation(Contact contact, String location) {
         contact.setLocation(location);
         StringBuilder messageStr = new StringBuilder();
-        messageStr.append("Hi " + contact.getName() + " ");
-        messageStr.append(context.getString(R.string.default_msg) + " " + location);
+        messageStr.append("Hi " + contact.getName() + " This is " + Prefs.getOwnerName(context) + ". ");
+        messageStr.append(context.getString(R.string.default_msg) + " " + location + ".");
         Log.d(TAG, messageStr.toString());
         contact.setMessage(messageStr.toString());
     }
@@ -93,6 +93,7 @@ public class WidgetController implements Mvc.Controller {
         }
         locationHelper.stopLocationAPI();
     }
+
 
     @Override
     public void onFailure() {
